@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>WebSockets - Akademikveld Mesan</title>
     <link rel="stylesheet" type="text/css" href="vendor/reveal.js/css/reveal.min.css" />
     <link rel="stylesheet" type="text/css" href="vendor/reveal.js/css/theme/moon.css" id="theme" />
     <link rel="stylesheet" type="text/css" href="css/moon.extended.css" />
+    <style>
+.reveal p {
+    margin-top:1em;
+}
+    </style>
 </head>
 <body>
     <div class="reveal">
@@ -12,10 +18,71 @@
             <section>
                 <h1>WebSockets</h1>
                 <h2>Akademikveld Mesan</h2>
+                <p>Arild Tvergrov &amp; Mikkel Steine</p>
             </section>
 
             <section>
-                <h1>Neste slide ...</h1>
+                <h1>Fordeler</h1>
+                
+                <p class="fragment">Rask, direkte kommunikasjon mellom klient (nettleser) og server.</p>
+                
+                <p class="fragment">Broadcast/push fra server til en eller flere klienter.</p>
+            </section>
+
+            <section>
+                <h1>WS-protokollen</h1>
+
+                <p class="fragment">RFC&nbsp;6455: Full-duplex-kommunikasjon over én TCP-tilkobling.</p>
+
+                <p class="fragment">Designet for web-server/nettleser, men kan brukes i enhver klient/server-konfigurasjon.</p>
+
+                <p class="fragment">Startes med en handshake via et Upgrade-kall i HTTP-protokollen.</p>
+
+                <p class="fragment">Meldinger sendes over TCP-port 80, evt. HTTPS port 443.</p>
+
+                <p class="fragment">Støttes av alle moderne nettlesere.<br>(FF6, Safari 6, Chrome 14, Opera 12.10, IE10)</p>
+            </section>
+
+            <section>
+                <div class="fragment">
+                <h3>Klienten...</h3>
+                <code><pre>
+GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http://example.com
+                </pre></code>
+                </div>
+                <div class="fragment">
+                <h3>Serveren...</h3>
+                <code><pre>
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Protocol: chat
+                </pre></code>
+                </div>
+            </section>
+
+            <section>
+                <h1>Socket.IO</h1>
+
+                <p class="fragment">Pakker inn detaljene i enkelt grensesnitt.</p>
+                <p class="fragment">Event-basert</p>
+                <p class="fragment">Sørger for alternativ løsning (polling) i eldre nettlesere.</p>
+                <p class="fragment">Består av JavaScript-API for nettleser og for node.js på server.</p>
+                <p class="fragment">Finnes server-alternativer også for bl.a. Java (<a href="https://github.com/mrniko/netty-socketio">netty-socketio</a>).</p>
+            </section>
+
+            <section>
+                <h1>Socket.IO ulemper</h1>
+                <p class="fragment">Bruker ikke alternative realtime kommunikasjonsmetoder for nettlesere som ikke støtter WebSockets.</p>
+                <p class="fragment">Ikke kompatibel med standard WebSockets-server.</p>
             </section>
         </div>
     </div>
