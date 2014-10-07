@@ -1,0 +1,6 @@
+{
+  "directory": "vendor",
+  "json": "bower.json",
+  "https-proxy": "http://10.22.2.11:8080",
+  "strict-ssl": false
+}
