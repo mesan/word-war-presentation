@@ -27,6 +27,8 @@
                 <p class="fragment">Rask, direkte kommunikasjon mellom klient (nettleser) og server.</p>
                 
                 <p class="fragment">Broadcast/push fra server til en eller flere klienter.</p>
+
+                <p class="fragment">Kobling blir holdt åpen i klientens levetid.</p>
             </section>
 
             <section>
@@ -70,11 +72,38 @@ Sec-WebSocket-Protocol: chat
             </section>
 
             <section>
+                <h1>WebSockets API</h1>
+                <code><pre>var socket = new WebSocket("ws://localhost/socketserver");
+socket.onopen = function (event) {
+  console.log(event.data);
+  socket.send(JSON.stringify( { login : "mesan" } ));
+};
+
+socket.onmessage = function(event) {
+  console.log(event.data);
+
+  var msg = JSON.parse(event.data);
+  
+  switch(msg.type) {
+    case "connected":
+      console.log("Connected");
+      break;
+    case "newUserBroadcast":
+      console.log("New user: " + msg.name);
+      break;
+  }
+  
+};
+
+socket.close();</pre></code>
+            </section>
+
+            <section>
                 <h1>Socket.IO</h1>
 
                 <p class="fragment">Pakker inn detaljene i enkelt grensesnitt.</p>
                 <p class="fragment">Event-basert</p>
-                <p class="fragment">Sørger for alternativ løsning (polling) i eldre nettlesere.</p>
+                <p class="fragment">Sørger for alternative løsninger (f.eks. polling) i eldre nettlesere.</p>
                 <p class="fragment">Består av JavaScript-API for nettleser og for node.js på server.</p>
                 <p class="fragment">Finnes server-alternativer også for bl.a. Java (<a href="https://github.com/mrniko/netty-socketio">netty-socketio</a>).</p>
             </section>
@@ -83,14 +112,13 @@ Sec-WebSocket-Protocol: chat
                 <h1>Socket.IO ulemper</h1>
                 <p class="fragment">Bruker ikke alternative realtime kommunikasjonsmetoder for nettlesere som ikke støtter WebSockets.</p>
                 <p class="fragment">Ikke kompatibel med standard WebSocket-server.</p>
-                <p class="fragment">Kan ikke kombineres med andre WebSocket-implementasjoner.</p>
+                <p class="fragment">Server og klient må begge bruke Socket.IO API.</p>
             </section>
 
             <section>
                 <h3>Socket.IO i klienten</h3>
                 <code><pre>(function(){
-  var host = location.origin.replace(/^http/, 'ws');
-  var socket = io(host);
+  var socket = io(location.origin);
 
   socket.on('connected', function (data) {
     console.log(data);
@@ -122,6 +150,22 @@ io.on('connection', function(socket) {
     io.emit('newUserBroadcast', name);
   });
 });</pre></code>
+            </section>
+
+            <section>
+                <h1>Utfordringer</h1>
+                <p class="fragment">Mange proxy-servere liker ikke HTTP Upgrade og dropper connection.</p>
+                <p class="fragment">Ny teknologi som kan inneholde nye sikkerhetshull.</p>
+                <p class="fragment">WebSockets kan være lett å hijacke om man ikke er forsiktig. Bruk WSS (tilsvarende HTTPS.)</p>
+                <p class="fragment">Alltid valider data fra klient/server.</p>
+                <p class="fragment">WebSockets har ingen autorisering. Man kan lage en form for "ticket"-system for å bøte på problemet.</p>
+            </section>
+
+            <section>
+                <h1>Les mer...</h1>
+                <p><a href="http://socket.io/">socket.io</a></p>
+                <p><a href="http://www.html5rocks.com/en/tutorials/websockets/basics/">WebSockets Basics</a></p>
+                <p><a href="https://devcenter.heroku.com/articles/websocket-security">WebSockets Security</a></p>
             </section>
         </div>
     </div>
