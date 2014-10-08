@@ -82,7 +82,46 @@ Sec-WebSocket-Protocol: chat
             <section>
                 <h1>Socket.IO ulemper</h1>
                 <p class="fragment">Bruker ikke alternative realtime kommunikasjonsmetoder for nettlesere som ikke støtter WebSockets.</p>
-                <p class="fragment">Ikke kompatibel med standard WebSockets-server.</p>
+                <p class="fragment">Ikke kompatibel med standard WebSocket-server.</p>
+                <p class="fragment">Kan ikke kombineres med andre WebSocket-implementasjoner.</p>
+            </section>
+
+            <section>
+                <h3>Socket.IO i klienten</h3>
+                <code><pre>(function(){
+  var host = location.origin.replace(/^http/, 'ws');
+  var socket = io(host);
+
+  socket.on('connected', function (data) {
+    console.log(data);
+    socket.emit('login', 'mikkels');
+  });
+
+  socket.on('newUserBroadcast', function (data) {
+    console.log(data);
+  });
+})();</pre></code>
+            </section>
+            <section>
+                <h3>Socket.IO på server</h3>
+                <code><pre>var app = require("express");
+var app = express();
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
+
+http.listen(3000, function() {
+  console.log("Listening to port 3000.");
+});
+
+io.on('connection', function(socket) {
+  console.log('Client connected.');
+  socket.emit('connected', "Server responds.");
+
+  socket.on('login', function(name) {
+    console.log(myname + " is logging in");
+    io.emit('newUserBroadcast', name);
+  });
+});</pre></code>
             </section>
         </div>
     </div>
