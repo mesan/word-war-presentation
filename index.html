@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/reveal.js/css/reveal.min.css" />
     <link rel="stylesheet" type="text/css" href="vendor/reveal.js/css/theme/moon.css" id="theme" />
     <link rel="stylesheet" type="text/css" href="css/moon.extended.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/highlight/styles/default.css" />
+    <link rel="stylesheet" type="text/css" href="public/highlight/styles/default.css" />
     <style>
 .reveal p {
     margin-top:1em;
@@ -165,16 +165,9 @@ io.on('connection', function(socket) {
     </div>
     <script type="text/javascript" src="vendor/reveal.js/js/reveal.min.js"></script>
     <script type="text/javascript" src="js/reveal.init.js"></script>
-    <script src="vendor/highlight/highlight.pack.js"></script>
-  <script>
-    Reveal.initialize({
-      controls: false,
-      history: true,
-      backgroundTransition: 'slide',
-      transition: 'linear',
-      mouseWheel: true
-    });
-    hljs.initHighlightingOnLoad();
-  </script>
+    <script src="public/highlight/highlight.pack.js"></script>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
 </body>
 </html>
